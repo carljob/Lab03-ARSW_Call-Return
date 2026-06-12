@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cliente Salones - Parte 2 HTTP</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
+        h1 { font-size: 20px; }
+        .salon { border: 1px solid #ccc; padding: 10px; margin: 8px 0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+        button { padding: 6px 12px; margin-left: 6px; cursor: pointer; }
+        #log { margin-top: 20px; padding: 10px; background: #f4f4f4; border-radius: 6px; font-family: monospace; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+
+<h1>Sistema de Salones - Parte 2 HTTP</h1>
+<button onclick="cargarSalones()">Actualizar lista</button>
+
+<div id="salones"></div>
+
+<h3>Log de respuestas</h3>
+<div id="log">Esperando acciones...</div>
+
+<script>
+    const BASE = "http://localhost:8080";
+    const ids = ["E301", "E302", "E303", "E304"];
+
+    async function cargarSalones() {
+        const cont = document.getElementById("salones");
+        cont.innerHTML = "";
+        for (const id of ids) {
+            const res = await fetch(`${BASE}/rooms?id=${id}`);
+            const texto = await res.text();
+            const div = document.createElement("div");
+            div.className = "salon";
+            div.innerHTML = `
+      <span>${texto}</span>
+      <span>
+        <button onclick="reservar('${id}')">Reservar</button>
+        <button onclick="liberar('${id}')">Liberar</button>
+      </span>`;
+            cont.appendChild(div);
+        }
+    }
+
+    async function reservar(id) {
+        const res = await fetch(`${BASE}/rooms/reserve?id=${id}`, { method: "POST" });
+        const texto = await res.text();
+        log(`RESERVAR ${id} -> ${texto}`);
+        cargarSalones();
+    }
+
+    async function liberar(id) {
+        const res = await fetch(`${BASE}/rooms/release?id=${id}`, { method: "POST" });
+        const texto = await res.text();
+        log(`LIBERAR ${id} -> ${texto}`);
+        cargarSalones();
+    }
+
+    function log(msg) {
+        const div = document.getElementById("log");
+        div.textContent = msg + "\n" + div.textContent;
+    }
+
+    cargarSalones();
+</script>
+
+</body>
+</html>

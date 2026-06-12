@@ -46,7 +46,8 @@ public class SalonHttpServer {
                     sb.append("</ul></body></html>");
                     response = sb.toString();
                 }
-
+                System.out.println("GET /rooms" + (query != null ? "?" + query : "") + " -> " + response);
+                exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
                 exchange.sendResponseHeaders(200, response.getBytes().length);
                 OutputStream os = exchange.getResponseBody();
                 os.write(response.getBytes());
@@ -82,6 +83,8 @@ public class SalonHttpServer {
                     response = "ERROR_OPERACION_INVALIDA";
                 }
 
+                System.out.println("POST /rooms/reserve?" + query + " -> " + response);
+                exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
                 exchange.sendResponseHeaders(200, response.getBytes().length);
                 OutputStream os = exchange.getResponseBody();
                 os.write(response.getBytes());
@@ -117,6 +120,8 @@ public class SalonHttpServer {
                     response = "ERROR_OPERACION_INVALIDA";
                 }
 
+                System.out.println("POST /rooms/release?" + query + " -> " + response);
+                exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
                 exchange.sendResponseHeaders(200, response.getBytes().length);
                 OutputStream os = exchange.getResponseBody();
                 os.write(response.getBytes());
