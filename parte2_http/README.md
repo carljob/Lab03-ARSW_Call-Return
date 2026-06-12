@@ -36,3 +36,6 @@ http://localhost:8080/rooms
 
 ![img.png](../docs/imagen/parte2.png)
 ![img.png](../docs/imagen/parte2.1.png)
+![img.png](../docs/imagen/parte2.2.png)
+![img.png](../docs/imagen/parte2.3.png)
+![img.png](../docs/imagen/parte2.4.png)
