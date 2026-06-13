@@ -19,5 +19,6 @@
     <module>parte4_grpc</module>
     <module>parte5_microservicios</module>
     <module>parte6_gateway</module>
+      <module>ECICIENCIA</module>
   </modules>
 </project>
